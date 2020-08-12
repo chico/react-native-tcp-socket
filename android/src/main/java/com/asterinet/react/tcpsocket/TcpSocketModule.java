@@ -96,14 +96,14 @@ public class TcpSocketModule extends ReactContextBaseJavaModule implements TcpRe
                 }
                 try {
                     socketClient.write(Base64.decode(base64String, Base64.NO_WRAP));
+                    if (callback != null) {
+                        callback.invoke();
+                    }
                 } catch (IOException e) {
                     if (callback != null) {
-                        callback.invoke(e);
-                        return;
+                        callback.invoke(e.toString());
                     }
-                }
-                if (callback != null) {
-                    callback.invoke();
+                    onError(cId, e.toString());
                 }
                 return;
             }
